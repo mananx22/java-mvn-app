@@ -16,8 +16,10 @@ pipeline {
         stage("building docker image") {
             steps {
                 script {
-                   echo "building our docker image"
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVaraible:'USER')]) {
+                   echo "building our docker image"                    
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh "echoing $USER"
+                    sh "echoing $PASS"
                     sh 'docker build -t motorollaman27/docker-jen-push-repo:java-mvn-app-2 .'
                     sh "echo $PASS | docker login -u $USER --password-stdin"
                     sh 'docker push motorollaman27/docker-jen-push-repo:java-mvn-app-2'
