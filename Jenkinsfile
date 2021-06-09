@@ -1,26 +1,38 @@
 pipeline {
+    agent any
+    tools {
+        maven 'maven 3.8.1'
+    }
+    stages {
+        stage("building jar") {
+            steps {
+                script {
+                   echo "building our java application"
+                   sh "mvn package"
+                }
+            }
+        }
 
-	agent any 
-	
-		stages {
-	
-			stage("build"){
-
-				steps { echo 'yoooo manan'
-				}
-			}
-			
-			stage("test"){
-
-                                steps { echo "testing manan"
-                                }
-                        }
-
-			stage("deploy"){
-
-                                steps { echo 'deploying manan'
-                                }
-                        }
-
-		}
-	}
+        stage("building docker image") {
+            steps {
+                script {
+                   echo "building our docker image"
+                   withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable : 'PASS', usernameVaraible = 'USER')])
+                   sh 'docker build -t motorollaman27/docker-jen-push-repo:java-mvn-app-2 .'
+                   sh "echo $PASS | docker login -u $USER --password-stdin"
+                   sh 'docker push motorollaman27/docker-jen-push-repo:java-mvn-app-2'
+                }
+            } 
+        }
+        
+        
+        stage("deploy") {
+            steps {
+                script {
+                    echo "deploying our application"
+                    //gv.deployApp()
+                }
+            }
+        }
+    }   
+}
