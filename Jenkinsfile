@@ -30,6 +30,8 @@ pipeline {
                 script {
                      // taken from jenkins shared library
                    buildImage 'motorollaman27/dock-jen-push-repo:java-mvn-app-3'
+                   dockerLogin()
+                   dockerPush 'motorollaman27/dock-jen-push-repo:java-mvn-app-3'
                 }
             } 
         }
