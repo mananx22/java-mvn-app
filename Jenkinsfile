@@ -1,3 +1,5 @@
+// adding jenkins-shared-library to be imported from jenkins 'which is defined in jenkins global configuration'
+@Library('jenkins-shared-library')
 def gv 
 
 pipeline {
@@ -17,7 +19,8 @@ pipeline {
         stage("building jar") {
             steps {
                 script {
-                   gv.buildJar()
+                    // taken from jenkins shared library
+                  buildJar()
                 }
             }
         }
@@ -25,7 +28,8 @@ pipeline {
         stage("building docker image") {
             steps {
                 script {
-                   gv.buildImage()
+                     // taken from jenkins shared library
+                   buildImage()
                 }
             } 
         }
