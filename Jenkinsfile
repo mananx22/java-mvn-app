@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                      // taken from jenkins shared library
-                   buildImage()
+                   buildImage 'motorollaman27/dock-jen-push-repo:java-mvn-app-3'
                 }
             } 
         }
